@@ -9,7 +9,9 @@ from app.src.service.token_service import authenticate_user
 router = APIRouter(tags=["Authentication"])
 
 
+# login/auth
 @router.post("/token", response_model=TokenResponse)
 def login(payload: LoginRequest, db: Session = Depends(get_db)):
     access_token = authenticate_user(db, payload)
+    
     return TokenResponse(access_token=access_token, token_type="bearer")

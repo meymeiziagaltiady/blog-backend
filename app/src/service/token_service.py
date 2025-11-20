@@ -10,9 +10,14 @@ from app.src.schema.token_schema import LoginRequest
 def authenticate_user(db: Session, payload: LoginRequest):
     user = db.query(User).filter(User.username == payload.username).first()
 
-    if not user or not verify_password(payload.password, user.password):
+    if not user:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username"
+        )
+    
+    if not verify_password(payload.password, user.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password"
         )
 
     token = create_access_token(

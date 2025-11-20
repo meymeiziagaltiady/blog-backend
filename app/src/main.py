@@ -9,6 +9,7 @@ from app.src.middleware.auth_middleware import authorization_middleware
 from app.src.route.ping_route import router as ping_router
 from app.src.route.token_route import router as auth_router
 from app.src.route.user_route import router as user_router
+from app.src.route.content_route import router as content_router
 
 app = FastAPI()
 
@@ -36,11 +37,13 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
+app.middleware("http")(authorization_middleware)
+
 app.include_router(ping_router)
 app.include_router(auth_router)
 app.include_router(user_router)
+app.include_router(content_router)
 
-app.middleware("http")(authorization_middleware)
 
 app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(Exception, all_exception_handler)

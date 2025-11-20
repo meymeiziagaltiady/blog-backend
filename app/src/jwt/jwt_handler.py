@@ -1,12 +1,9 @@
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.orm import Session
+from fastapi import HTTPException, Request, status
+from fastapi.security import HTTPBearer
 
 from app.src.config.config import settings
-from app.src.db.database import get_db
-from app.src.db.model import User
 from app.src.schema.jwt_schema import JwtUserData
 
 bearer_scheme = HTTPBearer()
@@ -22,6 +19,7 @@ def create_access_token(*, data: dict, expires_minutes: int | None = None) -> st
 
 
 def decode_token(token: str) -> dict:
+    # decode and verify token
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -32,6 +30,17 @@ def decode_token(token: str) -> dict:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token invalid or expired",
         )
+
+
+def get_token(request: Request):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing or invalid token",
+        )
+
+    return auth_header.replace("Bearer ", "")
 
 
 def get_user_data(token: str) -> JwtUserData:
