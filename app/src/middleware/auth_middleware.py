@@ -30,10 +30,9 @@ async def authorization_middleware(
     if required_role is None:
         return await call_next(request)
 
-    token = get_token(request)
-
     # get user
     try:
+        token = get_token(request)
         user = get_user_data(token)
     except Exception as e:
         return JSONResponse(

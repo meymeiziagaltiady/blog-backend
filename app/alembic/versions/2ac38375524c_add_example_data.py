@@ -10,9 +10,6 @@ from typing import Sequence, Union
 from alembic import op
 import sqlalchemy as sa
 
-from app.src.utils.password_util import hash_password
-
-
 # revision identifiers, used by Alembic.
 revision: str = '2ac38375524c'
 down_revision: Union[str, Sequence[str], None] = 'eb1454d25fcf'
@@ -31,7 +28,7 @@ def upgrade():
             VALUES (:username, :password, :role)
         """
         ),
-        {"username": "admin", "password": hash_password("admin123"), "role": "admin"},
+        {"username": "admin", "password": "$2b$12$3IG3BFzkZmbQccXEn/o/MeTex.riDirev67JS3.4iduRQW4NllacO", "role": "admin"},
     )
 
     # insert example user
@@ -43,7 +40,7 @@ def upgrade():
             RETURNING id
         """
         ),
-        {"username": "user", "password": hash_password("user123"), "role": "user"},
+        {"username": "user", "password": "$2b$12$VjSJwWYRrb6dIIMVwCEUJ.nQQkfvaVRdkHwD.xqhWQfknS/LAu1Ii", "role": "user"},
     )
 
     # get example user id

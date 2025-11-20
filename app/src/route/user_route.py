@@ -28,7 +28,7 @@ def create(payload: UserCreate, db: Session = Depends(get_db)):
 
 # get a user by id
 @router.get("/{id}", response_model=ApiResponse)
-def get_user_route(id: int, db: Session = Depends(get_db)):
+def get(id: int, db: Session = Depends(get_db)):
     user = get_user(db, id)
 
     return ApiResponse.success(
@@ -50,7 +50,7 @@ def update(id: int, payload: UserUpdate, db: Session = Depends(get_db)):
 @router.delete("/{id}", response_model=ApiResponse)
 def delete(id: int, db: Session = Depends(get_db)):
     user = delete_user(db, id)
-    
+
     return ApiResponse.success(
         UserResponse.model_validate(user), "User deleted successfully"
     )
