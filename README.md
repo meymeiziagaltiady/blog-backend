@@ -36,14 +36,8 @@ This will also include the database migration. For manual migration, run the fol
    ```
 
 ### 4. Access API Documentation
-Swagger UI:
-   ```console
-   http://localhost:8000/docs
-   ```
-ReDoc
-   ```console
-   http://localhost:8000/redoc
-   ```
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
 Use `Authorize` button and put token from `/token` response
 
