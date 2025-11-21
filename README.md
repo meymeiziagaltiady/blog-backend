@@ -51,7 +51,13 @@ alembic upgrade head
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
-Use `Authorize` button and put token from `/token` response
+Use `Authorize` button and put token from `/token` response.
+
+Example account:
+| Username | Password | Role |
+| -------- | ------- | ------- |
+| admin | admin123 | admin |
+| user | user123 | user |
 
 ## Running Tests
 
